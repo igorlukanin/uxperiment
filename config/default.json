@@ -1,0 +1,16 @@
+{
+  "rethinkdb": {
+    "host": "localhost",
+    "port": "28015",
+    "db": "uxperiment"
+  },
+  "website": {
+    "port": 4010
+  },
+  "data": {
+    "directory": "data",
+    "url": "https://github.com/igorlukanin/uxperiment-data.git",
+    "author": "UXperiment",
+    "email": "uxperiment@localhost"
+  }
+}

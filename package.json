@@ -1,0 +1,18 @@
+{
+  "name": "uxperiment",
+  "version": "0.0.1",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "compression": "^1.6.2",
+    "config": "^1.24.0",
+    "dropzone": "^4.3.0",
+    "ect": "^0.5.9",
+    "express": "^4.14.0",
+    "honesthash": "^0.1.10",
+    "multer": "^1.2.0",
+    "rimraf": "^2.5.4"
+  },
+  "scripts": {
+    "website": "NODE_ENV=production node src/website.js"
+  }
+}
