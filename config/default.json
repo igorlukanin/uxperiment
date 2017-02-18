@@ -1,4 +1,9 @@
 {
+  "rethinkdb": {
+    "host": "localhost",
+    "port": 28015,
+    "db": "uxperiment"
+  },
   "api": {
     "port": 4015
   },
