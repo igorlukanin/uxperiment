@@ -1,36 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300');
-
 body {
-    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 14pt;
     font-weight: 300;
 
-    margin: 15vh;
-}
-
-h1 {
-    font-size: 2em;
-    text-align: center;
-
-    margin-bottom: 15vh;
-}
-
-.dropzone {
-    border: dashed 2px #ccc;
-
-    margin: 0 10vw;
-}
-
-.dz-message {
-    color: #999;
-    font-size: 2em;
-
-    margin: 15vh 0 !important;
-}
-
-.dz-drag-hover {
-    background-color: #eee;
-}
-
-.prototype {
-    border: solid 1px #ccc;
+    margin: 10vh;
 }
