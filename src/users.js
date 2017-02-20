@@ -7,10 +7,13 @@ const create = () => db.upsertUser({
     keys: [ uuid.v4() ]
 });
 
-const getAll = () => db.selectUsers();
+const getAll = () => db.getUsers();
+
+const getByKey = key => db.getUserByKey(key);
 
 
 module.exports = {
     create,
-    getAll
+    getAll,
+    getByKey
 };
