@@ -67,7 +67,7 @@ const getConnection = tablesAndIndexes => connect().then(c => {
         .then(() => c.use(db))
         .then(() => checkTables(c, tablesAndIndexes))
         .then(() => checkIndexes(c, tablesAndIndexes))
-        .then(c);
+        .then(() => c);
 });
 
 
