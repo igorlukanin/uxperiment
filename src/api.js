@@ -4,6 +4,7 @@ const config = require('config');
 const express = require('express');
 const uuid = require('uuid');
 
+const documents = require('./documents');
 const users = require('./users');
 
 
@@ -19,11 +20,9 @@ const createNewId = (req, res) => users.getByKey(req.body.key || '')
     .catch(err => res.json({ success: false, err }));
 
 const processSketchUpload = (req, res) => users.getByKey(req.body.key || '')
-    .then(user => {
-        // TODO: Save data
-
-        res.json({ success: true });
-    })
+    .then(user => documents
+        .createSnapshot(user, req.body.document)
+        .then(() => res.json({ success: true })))
     .catch(err => res.json({ success: false, err }));
 
 

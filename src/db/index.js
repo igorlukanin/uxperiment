@@ -9,7 +9,8 @@ const connection = setup.getConnection({
         name: 'key',
         predicate: r.row('keys'),
         options: { multi: true }
-    }]
+    }],
+    documents: []
 });
 
 
@@ -25,21 +26,29 @@ const getUserByKey = key => connection.then(c => r.table('users')
     .run(c)
     .then(result => new Promise((resolve, reject) => {
         if (result.length === 1) {
-            resolve(result);
+            resolve(result[0]);
         }
         else {
             reject('No user with key: ' + key);
         }
     })));
 
-const upsertUser = user => connection.then(c => r.table('users')
-    .insert(user)
+const upsertEntity = (entity, table) => connection.then(c => r.table(table)
+    .insert(entity)
     .run(c)
-    .then(isOperationSuccessful));
+    .then(isOperationSuccessful))
+    .catch(err => {
+        console.log(err);
+    });
+
+const upsertUser = user => upsertEntity(user, 'users');
+
+const upsertDocument = document => upsertEntity(document, 'documents');
 
 
 module.exports = {
     getUsers,
     getUserByKey,
-    upsertUser
+    upsertUser,
+    upsertDocument
 };
