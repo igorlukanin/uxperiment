@@ -13,6 +13,9 @@ const connection = setup.getConnection({
     documents: [{
         name: 'userId',
         predicate: r.row('userId')
+    }, {
+        name: 'ready',
+        preducate: r.row('ready')
     }]
 });
 
@@ -59,6 +62,11 @@ const getDocumentsByUserId = userId => connection.then(c => r.table('documents')
     .coerceTo('array')
     .run(c));
 
+const feedUnreadyDocuments = () => connection.then(c => r.table('documents')
+    .getAll(false, { index: 'ready' })
+    .changes({ includeInitial: true })
+    .run(c));
+
 const upsertEntity = (entity, table) => connection.then(c => r.table(table)
     .insert(appendDateToEntity(entity))
     .run(c)
@@ -77,6 +85,7 @@ module.exports = {
     getUserById,
     getUserByKey,
     getDocumentsByUserId,
+    feedUnreadyDocuments,
     upsertUser,
     upsertDocument
 };

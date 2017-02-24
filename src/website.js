@@ -11,8 +11,8 @@ const users = require('./users');
 const port = config.get('website.port');
 
 
-const getLastDatetime = documents => documents.reduce((datetime, document) =>
-    datetime === undefined || document.datetime.getTime() > datetime.getTime() ? document.datetime : datetime, undefined);
+const getLastSnapshot = documents => documents.reduce((last, current) =>
+    last === undefined || current.datetime.getTime() > last.datetime.getTime() ? current : last, undefined);
 
 const showUserPage = (req, res) => Promise.all([
         users.getById(req.params.userId || ''),
@@ -25,8 +25,10 @@ const showUserPage = (req, res) => Promise.all([
         const documents = Object.keys(documentGroups)
             .map(documentId => ({
                 documentId,
-                snapshotCount: documentGroups[documentId].length,
-                lastSnapshotDateTime: getLastDatetime(documentGroups[documentId])
+                snapshots: {
+                    count: documentGroups[documentId].length,
+                    lastDateTime: getLastSnapshot(documentGroups[documentId]).datetime
+                }
             }));
 
         return res.render('user', {
@@ -57,6 +59,6 @@ express()
     .set('view engine', 'ect')
     .engine('ect', ect({
         watch: true,
-        root: __dirname + '/../views'
+        root: __dirname + '/../views/website'
     }).render)
     .listen(port, () => console.info('Website started at port ' + port));

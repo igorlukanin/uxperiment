@@ -4,6 +4,13 @@
     "port": 28015,
     "db": "uxperiment"
   },
+  "s3": {
+    "accessKeyId": "",
+    "secretAccessKey": "",
+    "apiVersion": "2006-03-01",
+    "region": "us-east-1",
+    "bucket": "uxperiment"
+  },
   "api": {
     "port": 4015
   },

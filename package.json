@@ -2,6 +2,7 @@
   "name": "uxperiment",
   "version": "0.0.1",
   "dependencies": {
+    "aws-sdk": "^2.19.0",
     "bluebird": "^3.4.6",
     "body-parser": "^1.16.1",
     "compression": "^1.6.2",
@@ -14,6 +15,7 @@
   },
   "scripts": {
     "api": "NODE_ENV=production node src/api.js",
+    "pager": "NODE_ENV=production node src/pager.js",
     "website": "NODE_ENV=production node src/website.js"
   }
 }
