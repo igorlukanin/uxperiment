@@ -16,6 +16,11 @@ const connection = setup.getConnection({
 
 const isOperationSuccessful = result => result.errors === 0;
 
+const appendDateToEntity = entity => {
+    entity.datetime = r.now();
+    return entity;
+};
+
 const getUsers = () => connection.then(c => r.table('users')
     .coerceTo('array')
     .run(c));
@@ -34,7 +39,7 @@ const getUserByKey = key => connection.then(c => r.table('users')
     })));
 
 const upsertEntity = (entity, table) => connection.then(c => r.table(table)
-    .insert(entity)
+    .insert(appendDateToEntity(entity))
     .run(c)
     .then(isOperationSuccessful))
     .catch(err => {
