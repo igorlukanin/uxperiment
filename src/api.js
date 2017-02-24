@@ -21,7 +21,7 @@ const createNewId = (req, res) => users.getByKey(req.body.key || '')
 
 const processSketchUpload = (req, res) => users.getByKey(req.body.key || '')
     .then(user => documents
-        .createSnapshot(user, req.body.document)
+        .create(user, req.body.document)
         .then(() => res.json({ success: true })))
     .catch(err => res.json({ success: false, err }));
 
