@@ -14,8 +14,8 @@
     "uuid": "^3.0.1"
   },
   "scripts": {
-    "api": "NODE_ENV=production node src/api.js",
-    "pager": "NODE_ENV=production node src/pager.js",
-    "website": "NODE_ENV=production node src/website.js"
+    "api": "NODE_ENV=production node src/app/api.js",
+    "pager": "NODE_ENV=production node src/app/pager.js",
+    "website": "NODE_ENV=production node src/app/website.js"
   }
 }

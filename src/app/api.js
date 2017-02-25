@@ -4,8 +4,8 @@ const config = require('config');
 const express = require('express');
 const uuid = require('uuid');
 
-const documents = require('./documents');
-const users = require('./users');
+const documents = require('../documents');
+const users = require('../users');
 
 
 const port = config.get('api.port');

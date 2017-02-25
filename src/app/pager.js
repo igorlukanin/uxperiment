@@ -1,5 +1,5 @@
-const documents = require('./documents');
-const page = require('./page');
+const documents = require('../documents');
+const page = require('../page');
 
 
 documents.feedAllUnready().then(cursor => {

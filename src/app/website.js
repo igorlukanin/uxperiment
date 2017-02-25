@@ -4,8 +4,8 @@ const config = require('config');
 const ect = require('ect');
 const express = require('express');
 
-const documents = require('./documents');
-const users = require('./users');
+const documents = require('../documents');
+const users = require('../users');
 
 
 const port = config.get('website.port');
