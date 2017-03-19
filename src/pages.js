@@ -34,9 +34,9 @@ const createFile = (path, contentType, content) => new Promise((resolve, reject)
 
 const createHtmlFile = (id, name, content) => createFile(id + '/' + name + '.html', 'text/html', content);
 
-const create = document => {
-    renderer.render('index', document, (err, html) => {
-        return createHtmlFile(document.id, 'index', html);
+const create = snapshot => {
+    renderer.render('index', snapshot, (err, html) => {
+        return createHtmlFile(snapshot.document.id, 'index', html);
     });
 };
 
