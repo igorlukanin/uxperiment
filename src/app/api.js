@@ -9,6 +9,7 @@ const users = require('../users');
 
 
 const port = config.get('api.port');
+const uploadLimit = config.get('api.upload.limit');
 
 
 const checkKey = (req, res) => users.getByKey(req.params.key || '')
@@ -28,7 +29,7 @@ const processSketchUpload = (req, res) => users.getByKey(req.body.key || '')
 
 express()
     .use(compression())
-    .use(bodyParser.json())
+    .use(bodyParser.json({ limit: uploadLimit }))
     .get('/keys/:key', checkKey)
     .post('/ids', createNewId)
     .post('/sketch', processSketchUpload)

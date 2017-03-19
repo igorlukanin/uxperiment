@@ -12,7 +12,10 @@
     "bucket": "uxperiment"
   },
   "api": {
-    "port": 4015
+    "port": 4015,
+    "upload": {
+      "limit": "100mb"
+    }
   },
   "website": {
     "port": 4010
