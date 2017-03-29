@@ -9,10 +9,12 @@ const users = require('../users');
 
 
 const port = config.get('website.port');
+const bucket = config.get('s3.bucket');
 
-
-const getLastSnapshot = documents => documents.reduce((last, current) =>
+const getLastSnapshot = snapshots => snapshots.reduce((last, current) =>
     last === undefined || current.datetime.getTime() > last.datetime.getTime() ? current : last, undefined);
+
+const getLinkToSnapshot = snapshot => "https://s3.amazonaws.com/" + bucket + "/" + snapshot.document.id + "/index.html";
 
 const showUserPage = (req, res) => Promise.all([
         users.getById(req.params.userId || ''),
@@ -21,15 +23,20 @@ const showUserPage = (req, res) => Promise.all([
     .then(result => {
         const user = result[0];
 
-        const documentGroups = _.groupBy(result[1], 'document.id');
-        const documents = Object.keys(documentGroups)
-            .map(documentId => ({
-                documentId,
-                snapshots: {
-                    count: documentGroups[documentId].length,
-                    lastDateTime: getLastSnapshot(documentGroups[documentId]).datetime
-                }
-            }));
+        const snapshotGroups = _.groupBy(result[1], 'document.id');
+        const documents = Object.keys(snapshotGroups)
+            .map(documentId => {
+                const lastSnapshot = getLastSnapshot(snapshotGroups[documentId]);
+
+                return {
+                    documentId,
+                    snapshots: {
+                        count: snapshotGroups[documentId].length,
+                        lastDateTime: lastSnapshot.datetime,
+                        lastLink: getLinkToSnapshot(lastSnapshot)
+                    }
+                };
+            });
 
         return res.render('user', {
             success: true,
@@ -57,8 +64,9 @@ express()
     .post('/users.json', (req, res) => users.create().then(user => sendPrettyJSON(res, user)))
 
     .set('view engine', 'ect')
+    .set('views', __dirname + '/../../views/website')
     .engine('ect', ect({
         watch: true,
-        root: __dirname + '/../views/website'
+        root: __dirname + '/../../views/website'
     }).render)
     .listen(port, () => console.info('Website started at port ' + port));

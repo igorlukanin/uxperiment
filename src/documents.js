@@ -13,9 +13,12 @@ const getAllByUserId = id => db.getDocumentsByUserId(id);
 
 const feedAllUnready = () => db.feedUnreadyDocuments();
 
+const setReady = id => db.setDocumentReady(id);
+
 
 module.exports = {
     create,
     getAllByUserId,
-    feedAllUnready
+    feedAllUnready,
+    setReady
 };

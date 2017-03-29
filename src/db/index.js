@@ -67,6 +67,11 @@ const feedUnreadyDocuments = () => connection.then(c => r.table('documents')
     .changes({ includeInitial: true })
     .run(c));
 
+const setDocumentReady = id => connection.then(c => r.table('documents')
+    .get(id)
+    .update({ ready: true })
+    .run(c));
+
 const upsertEntity = (entity, table) => connection.then(c => r.table(table)
     .insert(appendDateToEntity(entity))
     .run(c)
@@ -86,6 +91,7 @@ module.exports = {
     getUserByKey,
     getDocumentsByUserId,
     feedUnreadyDocuments,
+    setDocumentReady,
     upsertUser,
     upsertDocument
 };

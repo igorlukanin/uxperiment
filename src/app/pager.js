@@ -1,19 +1,21 @@
 const documents = require('../documents');
-const page = require('../page');
+const pages = require('../pages');
 
 
 documents.feedAllUnready().then(cursor => {
     cursor.each((err, change) => {
-        const document = change.new_val;
+        const snapshot = change.new_val;
 
-        // TODO: Remove later
-        if (document.id != 'dd7baddf-32dd-41af-b1c3-1f239ef45f04') {
+        if (snapshot === null) {
             return;
         }
 
-        // console.log(document);
-
-        page.create(document);
+        pages
+            .create(snapshot)
+            .then(() => {
+                documents.setReady(snapshot.id);
+                console.log(snapshot.id);
+            });
     });
 
     console.info('Pager started.');
