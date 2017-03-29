@@ -33,7 +33,8 @@ const showUserPage = (req, res) => Promise.all([
                     snapshots: {
                         count: snapshotGroups[documentId].length,
                         lastDateTime: lastSnapshot.datetime,
-                        lastLink: getLinkToSnapshot(lastSnapshot)
+                        lastLink: getLinkToSnapshot(lastSnapshot),
+                        metrikaLink: 'https://metrika.yandex.ru/dashboard?id=43828674'
                     }
                 };
             });
