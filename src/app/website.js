@@ -9,12 +9,12 @@ const users = require('../users');
 
 
 const port = config.get('website.port');
-const bucket = config.get('s3.bucket');
+
 
 const getLastSnapshot = snapshots => snapshots.reduce((last, current) =>
     last === undefined || current.datetime.getTime() > last.datetime.getTime() ? current : last, undefined);
 
-const getLinkToSnapshot = snapshot => "https://s3.amazonaws.com/" + bucket + "/" + snapshot.document.id + "/index.html";
+const getLinkToSnapshot = snapshot => `${config.get('proxy.url')}/${snapshot.document.id}/`;
 
 const showUserPage = (req, res) => Promise.all([
         users.getById(req.params.userId || ''),

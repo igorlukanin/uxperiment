@@ -2,5 +2,8 @@
   "s3": {
     "accessKeyId": "",
     "secretAccessKey": ""
+  },
+  "proxy": {
+    "url": "http://your.uxperiment.com"
   }
 }
