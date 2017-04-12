@@ -7,7 +7,7 @@ const documents = require('../documents');
 const users = require('../users');
 
 
-const port = config.get('s3.bucket');
+const bucket = config.get('s3.bucket');
 const port = config.get('proxy.port');
 
 
