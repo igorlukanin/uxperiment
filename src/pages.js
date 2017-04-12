@@ -5,7 +5,8 @@ const s3 = require('aws-sdk/clients/s3');
 
 const renderer = ect({
     root: __dirname + '/../views/pager',
-    ext: '.ect'
+    ext: '.ect',
+    watch: true
 });
 
 

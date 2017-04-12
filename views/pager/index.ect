@@ -13,48 +13,32 @@
             font-size: 14pt;
             font-weight: 300;
 
-            margin: 5vw;
+            margin: 0;
             text-align: center;
         }
 
         .page {
-            background: #fff;
-            border: solid 1px #ddd;
-
-            display: inline-block;
             overflow: hidden;
         }
 
-        .page__layers {
-
+        .page__layer {
+            position: absolute;
         }
 
-        .page__layers__layer {
-
-        }
-
-        .page__layers__layer_hidden {
+        .page__layer_hidden {
             display: none;
         }
 
-        .page__layers__layer_artboard {
+        .page__layer_artboard {
 
         }
 
-        .page__layers__layer_transition {
+        .page__layer_transition {
             cursor: pointer;
         }
 
-        .page__layers__layer__children { }
-
-        .page__layers__layer__children {
+        .page__layer-children {
             position: relative;
-        }
-
-        .page__layers__layer__children__layer {
-            background-color: #fff;
-
-            position: absolute;
         }
     </style>
 </head>
@@ -66,72 +50,64 @@
         var isFirstArtboardProcessed = false;
 
         var getArtboardNavigationClass = function(index) {
-            return 'page__layers__layer_artboard-' + index;
+            return 'page__layer_artboard-' + index;
         };
 
         var renderLayer = function(layer, i) {
-            d3.select(this)
-                .classed('page__layers__layer_artboard', layer.type === 'artboard')
+            var element = d3.select(this)
+                .classed('page__layer_artboard', layer.type === 'artboard')
                 .classed(getArtboardNavigationClass(i), layer.type === 'artboard')
-                .classed('page__layers__layer_hidden', layer.type === 'artboard' && isFirstArtboardProcessed)
+                .classed('page__layer_hidden', layer.type === 'artboard' && isFirstArtboardProcessed)
                 .style('width', layer.frame.width + 'px')
-                .style('height', layer.frame.height + 'px');
+                .style('height', layer.frame.height + 'px')
+                .attr('data-name', layer.name);
 
             if (layer.type === 'artboard') {
                 isFirstArtboardProcessed = true;
+
+                element.style('background-image', 'url("' + layer.image + '")');
             }
 
             if (layer.type !== 'artboard') {
-                d3.select(this)
-                    .style('top', layer.frame.y + 'px')
+                element.style('top', layer.frame.y + 'px')
                     .style('left', layer.frame.x + 'px');
             }
 
-            if (layer.type === 'image' || layer.type === 'shape' || layer.type === 'text') {
-                d3.select(this)
-                    .append('img')
-                    .attr('src', layer.image);
-            }
-
             if (layer.children !== undefined) {
-                d3.select(this)
-                    .append('div')
-                    .classed('page__layers__layer__children', true)
-                    .selectAll('.page__layers__layer__children__layer')
+                element.append('div')
+                    .classed('page__layer__children', true)
+                    .selectAll('.page__layer')
                     .data(layer.children)
                     .enter()
                     .append('div')
-                    .classed('page__layers__layer__children__layer', true)
+                    .classed('page__layer', true)
                     .each(renderLayer);
             }
 
             if (layer.transition !== undefined) {
-                d3.select(this)
-                    .classed('page__layers__layer_transition', true)
+                element.classed('page__layer_transition', true)
                     .on('click', function() {
                         var artboard = d3.select(this);
 
-                        while (!artboard.classed('page__layers__layer_artboard')) {
+                        while (!artboard.classed('page__layer_artboard')) {
                             artboard = d3.select(artboard.node().parentNode);
                         }
 
-                        artboard.classed('page__layers__layer_hidden', true);
+                        artboard.classed('page__layer_hidden', true);
 
                         d3.select('.' + getArtboardNavigationClass(layer.transition))
-                            .classed('page__layers__layer_hidden', false);
+                            .classed('page__layer_hidden', false);
                     });
             }
         };
 
         var renderPage = function(page) {
             d3.select(this)
-                .append('div')
-                .classed('page__layers', true)
-                .selectAll('.page__layers__layer')
+                .selectAll('.page__layer')
                 .data(page.layers)
                 .enter()
                 .append('div')
-                .classed('page__layers__layer', true)
+                .classed('page__layer', true)
                 .each(renderLayer);
         };
 
