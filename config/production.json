@@ -7,6 +7,6 @@
     "accessToken": ""
   },
   "proxy": {
-    "url": "http://your.uxperiment.com"
+    "url": "https://your.uxperiment.com"
   }
 }
