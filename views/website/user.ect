@@ -16,14 +16,6 @@
         <% for @document in @documents: %>
         <p class='feature'>— <a href='<%= @document.links.preview %>' target='_blank'>View the prototype</a> or <a href='<%= @document.links.counter %>' target='_blank'>browse the analytics</a> for <span class='shortcut'><%= @document.document.name %></span></p>
         <% end %>
-
-        <!--<p class='feature'>Follow these steps to publish your first prototype:</p>
-        <p class='feature'>1.  the Sketch plugin.</p>
-        <p class='feature'>2. Double-click the file to install it.</p>
-
-        <p class='feature'>4. Add transitions <span class='shortcut'>⌘⌥O</span> and publish the document <span class='shortcut'>⌘⌥P</span>.</p>
-        <p class='feature'>You'll be asked for an API key. Here it is: <span class='shortcut'><%= @user.keys[0] %></span>.</p>
-        <p class='feature'>5. <a href='/users/<%= @user.id %>'>Refresh</a> this page to see the exported document.</p>-->
     </div>
 
     <% else: %>
@@ -32,12 +24,12 @@
         <h2 class='feature'>Getting Started</h2>
 
         <p class='feature'>Follow these steps to publish your first prototype:</p>
-        <p class='feature'>1. <a href='https://raw.githubusercontent.com/igorlukanin/uxperiment-sketch-plugin/master/UXperiment.sketchplugin' target='_blank'>Download</a> the Sketch plugin.</p>
-        <p class='feature'>2. Double-click the file to install it.</p>
-        <p class='feature'>3. Open any Sketch document.</p>
+        <p class='feature'>1. Open any Sketch document.</p>
+        <p class='feature'>2. <a href='https://github.com/igorlukanin/uxperiment-sketch-plugin/archive/master.zip' target='_blank'>Download</a> and unzip the UXperiment Sketch Export plugin.</p>
+        <p class='feature'>3. Double-click <span class='shortcut'>UXperiment.sketchplugin</span> to install it.</p>
         <p class='feature'>4. Add transitions <span class='shortcut'>⌘⌥O</span> and publish the document <span class='shortcut'>⌘⌥P</span>.</p>
         <p class='feature'>You'll be asked for an API key. Here it is: <span class='shortcut'><%= @user.keys[0] %></span>.</p>
-        <p class='feature'>5. <a href='/users/<%= @user.id %>'>Refresh</a> this page to see the exported document.</p>
+        <p class='feature'>5. <a href='/user'>Refresh</a> this page to see the exported document.</p>
     </div>
 
     <% end %>
