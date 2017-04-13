@@ -10,6 +10,9 @@ const connection = setup.getConnection({
         name: 'key',
         predicate: r.row('keys'),
         options: { multi: true }
+    }, {
+        name: 'cookieToken',
+        predicate: r.row('cookieToken')
     }],
     documents: [{
         name: 'userId',
@@ -55,6 +58,11 @@ const getUserByKey = key => connection.then(c => r.table('users')
         }
     })));
 
+const getUserByCookieToken = cookieToken => connection.then(c => r.table('users')
+    .getAll(cookieToken, { index: 'cookieToken' })
+    .run(c)
+    .then(result.toUnit));
+
 const getDocumentById = id => connection.then(c => r.table('documents')
     .get(id)
     .run(c)
@@ -79,20 +87,21 @@ const setDocumentReady = id => connection.then(c => r.table('documents')
     .update({ ready: true })
     .run(c));
 
-const upsertEntity = (entity, table) => connection.then(c => r.table(table)
-    .insert(appendDateToEntity(entity), { conflict: 'replace' })
+const upsertEntity = (entity, table, conflict = 'update') => connection.then(c => r.table(table)
+    .insert(appendDateToEntity(entity), { conflict })
     .run(c)
     .then(result.check));
 
 const upsertUser = user => upsertEntity(user, 'users');
 
-const upsertDocument = document => upsertEntity(document, 'documents');
+const upsertDocument = document => upsertEntity(document, 'documents', 'replace');
 
 
 module.exports = {
     getUsers,
     getUserById,
     getUserByKey,
+    getUserByCookieToken,
     getDocumentsByUserId,
     getDocumentById,
     feedUnreadyDocuments,

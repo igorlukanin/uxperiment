@@ -6,6 +6,11 @@
   "metrika": {
     "accessToken": ""
   },
+  "google": {
+    "clientId": "",
+    "clientSecret": "",
+    "redirectUrl": "https://uxperiment.io/login/result"
+  },
   "proxy": {
     "url": "https://your.uxperiment.io"
   }

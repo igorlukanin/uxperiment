@@ -91,10 +91,15 @@
                     .each(renderLayer);
             }
 
-            if (layer.transition !== undefined) {
+            if (layer.transition !== undefined && layer.transition.type !== undefined) {
                 element.classed('page__layer_transition', true)
                     .on('click', function() {
-                        selectArtboard(layer.transition, this);
+                        if (layer.transition.type === 'artboard') {
+                            selectArtboard(layer.transition.value, this);
+                        }
+                        else if (layer.transition.type === 'url') {
+                            window.open(layer.transition.value, '_blank');
+                        }
                     });
             }
         };

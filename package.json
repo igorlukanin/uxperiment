@@ -7,9 +7,13 @@
     "body-parser": "^1.16.1",
     "compression": "^1.6.2",
     "config": "^1.24.0",
+    "cookie-parser": "^1.4.3",
     "ect": "^0.5.9",
     "express": "^4.14.0",
+    "googleapis": "^19.0.0",
     "got": "^6.7.1",
+    "lato-font": "^3.0.0",
+    "moment": "^2.18.1",
     "request": "^2.81.0",
     "rethinkdb": "^2.3.3",
     "uuid": "^3.0.1"
