@@ -11,6 +11,9 @@
     "region": "us-east-1",
     "bucket": "uxperiment"
   },
+  "metrika": {
+    "accessToken": ""
+  },
   "api": {
     "port": 4015,
     "upload": {

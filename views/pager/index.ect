@@ -41,25 +41,38 @@
     <script>
         var snapshot = <%- JSON.stringify(@document) %>;
 
-        var isFirstArtboardProcessed = false;
-
         var getArtboardNavigationClass = function(index) {
             return 'page__layer_artboard-' + index;
         };
 
+        var selectArtboard = function(index, element) {
+            if (element !== undefined) {
+                var artboard = d3.select(element);
+
+                while (!artboard.classed('page__layer_artboard')) {
+                    artboard = d3.select(artboard.node().parentNode);
+                }
+
+                artboard.classed('page__layer_hidden', true);
+            }
+
+            var artboard = d3.select('.' + getArtboardNavigationClass(index))
+                .classed('page__layer_hidden', false);
+
+            window.location.hash = '#' + encodeURIComponent(artboard.attr('data-name'));
+        };
+
         var renderLayer = function(layer, i) {
             var element = d3.select(this)
-                .classed('page__layer_artboard', layer.type === 'artboard')
-                .classed(getArtboardNavigationClass(i), layer.type === 'artboard')
-                .classed('page__layer_hidden', layer.type === 'artboard' && isFirstArtboardProcessed)
                 .style('width', layer.frame.width + 'px')
                 .style('height', layer.frame.height + 'px')
                 .attr('data-name', layer.name);
 
             if (layer.type === 'artboard') {
-                isFirstArtboardProcessed = true;
-
-                element.style('background-image', 'url("' + layer.image + '")');
+                element.classed('page__layer_artboard', true)
+                    .classed(getArtboardNavigationClass(i), true)
+                    .classed('page__layer_hidden', true)
+                    .style('background-image', 'url("' + layer.image + '")');
             }
 
             if (layer.type !== 'artboard') {
@@ -81,16 +94,7 @@
             if (layer.transition !== undefined) {
                 element.classed('page__layer_transition', true)
                     .on('click', function() {
-                        var artboard = d3.select(this);
-
-                        while (!artboard.classed('page__layer_artboard')) {
-                            artboard = d3.select(artboard.node().parentNode);
-                        }
-
-                        artboard.classed('page__layer_hidden', true);
-
-                        d3.select('.' + getArtboardNavigationClass(layer.transition))
-                            .classed('page__layer_hidden', false);
+                        selectArtboard(layer.transition, this);
                     });
             }
         };
@@ -113,12 +117,15 @@
                 .append('div')
                 .classed('page', true)
                 .each(renderPage);
+
+            document.title = snapshot.name;
+            selectArtboard(0);
         };
 
         renderSnapshot(snapshot);
     </script>
 
-    <!-- Yandex.Metrika counter --> <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter43828674 = new Ya.Metrika({ id:43828674, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true, ut:"noindex" }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/43828674?ut=noindex" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
+    <%- @counter.code %>
 </body>
 
 </html>

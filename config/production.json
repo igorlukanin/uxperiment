@@ -3,6 +3,9 @@
     "accessKeyId": "",
     "secretAccessKey": ""
   },
+  "metrika": {
+    "accessToken": ""
+  },
   "proxy": {
     "url": "http://your.uxperiment.com"
   }

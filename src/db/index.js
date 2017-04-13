@@ -2,6 +2,7 @@ const r = require('rethinkdb');
 const Promise = require('bluebird');
 
 const setup = require('./setup');
+const result = require('./result');
 
 
 const connection = setup.getConnection({
@@ -19,8 +20,6 @@ const connection = setup.getConnection({
     }]
 });
 
-
-const isOperationSuccessful = result => result.errors === 0;
 
 const appendDateToEntity = entity => {
     entity.datetime = r.now();
@@ -56,6 +55,14 @@ const getUserByKey = key => connection.then(c => r.table('users')
         }
     })));
 
+const getDocumentById = id => connection.then(c => r.table('documents')
+    .get(id)
+    .run(c)
+    .then(result => result === null
+        ? Promise.reject()
+        : result
+    ));
+
 const getDocumentsByUserId = userId => connection.then(c => r.table('documents')
     .getAll(userId, { index: 'userId' })
     .without({ document: 'pages' })
@@ -73,12 +80,9 @@ const setDocumentReady = id => connection.then(c => r.table('documents')
     .run(c));
 
 const upsertEntity = (entity, table) => connection.then(c => r.table(table)
-    .insert(appendDateToEntity(entity))
+    .insert(appendDateToEntity(entity), { conflict: 'replace' })
     .run(c)
-    .then(isOperationSuccessful))
-    .catch(err => {
-        console.log(err);
-    });
+    .then(result.check));
 
 const upsertUser = user => upsertEntity(user, 'users');
 
@@ -90,6 +94,7 @@ module.exports = {
     getUserById,
     getUserByKey,
     getDocumentsByUserId,
+    getDocumentById,
     feedUnreadyDocuments,
     setDocumentReady,
     upsertUser,

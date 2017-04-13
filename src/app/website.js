@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const compression = require('compression');
 const config = require('config');
 const ect = require('ect');
@@ -11,41 +10,16 @@ const users = require('../users');
 const port = config.get('website.port');
 
 
-const getLastSnapshot = snapshots => snapshots.reduce((last, current) =>
-    last === undefined || current.datetime.getTime() > last.datetime.getTime() ? current : last, undefined);
-
-const getLinkToSnapshot = snapshot => `${config.get('proxy.url')}/${snapshot.document.id}/`;
-
 const showUserPage = (req, res) => Promise.all([
         users.getById(req.params.userId || ''),
         documents.getAllByUserId(req.params.userId || '')
     ])
-    .then(result => {
-        const user = result[0];
-
-        const snapshotGroups = _.groupBy(result[1], 'document.id');
-        const documents = Object.keys(snapshotGroups)
-            .map(documentId => {
-                const lastSnapshot = getLastSnapshot(snapshotGroups[documentId]);
-
-                return {
-                    documentId,
-                    snapshots: {
-                        count: snapshotGroups[documentId].length,
-                        lastDateTime: lastSnapshot.datetime,
-                        lastLink: getLinkToSnapshot(lastSnapshot),
-                        metrikaLink: 'https://metrika.yandex.ru/dashboard?id=43828674'
-                    }
-                };
-            });
-
-        return res.render('user', {
-            success: true,
-            user,
-            documents
-        });
-    })
-    .catch(err => res.render('user', { success: false, err }));
+    .then(result => res.render('user', {
+        success: true,
+        user: result[0],
+        documents: result[1]
+    }))
+    .catch(err => res.redirect('/'));
 
 const sendPrettyJSON = (res, json) => {
     res.setHeader('Content-Type', 'application/json');
