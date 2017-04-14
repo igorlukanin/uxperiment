@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const ect = require('ect');
 const express = require('express');
 
+const db = require('../db');
 const documents = require('../documents');
 const google = require('../google');
 const users = require('../users');
@@ -32,6 +33,9 @@ express()
     .use('/fonts/lato.css', express.static('node_modules/lato-font/css/lato-font.min.css'))
 
     .get('/', (req, res) => res.render('index'))
+
+    .get('/status.json', (req, res) => db.getCounts()
+        .then(counts => res.json(counts)))
 
     .get('/login', (req, res) => res.redirect(google.getOAuthUrl()))
 

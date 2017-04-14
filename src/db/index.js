@@ -96,6 +96,14 @@ const upsertUser = user => upsertEntity(user, 'users');
 
 const upsertDocument = document => upsertEntity(document, 'documents', 'replace');
 
+const getCounts = () => connection.then(c => r.do([
+    r.table('users').count(),
+    r.table('documents').count()
+]).run(c).then(result => ({
+    users: result[0],
+    documents: result[1]
+})));
+
 
 module.exports = {
     getUsers,
@@ -107,5 +115,6 @@ module.exports = {
     feedUnreadyDocuments,
     setDocumentReady,
     upsertUser,
-    upsertDocument
+    upsertDocument,
+    getCounts
 };
