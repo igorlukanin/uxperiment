@@ -71,7 +71,7 @@
             if (layer.type === 'artboard') {
                 element.classed('page__layer_artboard', true)
                     .classed(getArtboardNavigationClass(i), true)
-                    .classed('page__layer_hidden', true)
+                    .classed('page__layer_hidden', !layer.initialArtboard)
                     .style('background-image', 'url("' + layer.image + '")');
             }
 
@@ -124,7 +124,6 @@
                 .each(renderPage);
 
             document.title = snapshot.name;
-            selectArtboard(0);
         };
 
         renderSnapshot(snapshot);
