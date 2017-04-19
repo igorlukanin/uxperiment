@@ -17,7 +17,7 @@
   "google": {
     "clientId": "",
     "clientSecret": "",
-    "redirectUrl": "https://uxperiment.io/login/result"
+    "redirectUrl": "http://localhost:4010/login/result"
   },
   "api": {
     "port": 4015,
