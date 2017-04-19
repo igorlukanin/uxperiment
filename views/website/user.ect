@@ -18,7 +18,7 @@
         <% end %>
     </div>
 
-    <% else: %>
+    <% end %>
 
     <div class='feature-box'>
         <h2 class='feature'>Getting Started</h2>
@@ -31,8 +31,6 @@
         <p class='feature'>You'll be asked for an API key. Here it is: <span class='shortcut'><%= @user.keys[0] %></span>.</p>
         <p class='feature'>5. <a href='/user'>Refresh</a> this page to see the exported document.</p>
     </div>
-
-    <% end %>
 
     <div class='footer-box'>
         <p class='footer'>Need help? <a href='mailto:mail@igor.lukanin.name?subject=UXperiment'>Get in touch with us</a>.</p>
